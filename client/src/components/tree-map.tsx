@@ -101,5 +101,5 @@ export default function TreeMap({
     };
   }, [trees, center, zoom, onMarkerClick]);
 
-  return <div ref={mapRef} className="w-full h-full" />;
+  return <div ref={mapRef} className="relative w-full h-full z-0" />;
 }
