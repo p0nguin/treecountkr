@@ -313,6 +313,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+
+    app.post("/api/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+      const user = await storage.getUserByEmail(email);
+      if (!user) {
+        return res.status(401).json({ message: "사용자를 찾을 수 없습니다." });
+      }
+
+      const passwordValid = await bcrypt.compare(password, user.passwordHash);
+      if (!passwordValid) {
+        return res.status(401).json({ message: "비밀번호가 일치하지 않습니다." });
+      }
+
+      const token = jwt.sign({ sub: user.id, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
+      res.json({ token });
+    } catch (err) {
+      console.error("로그인 실패:", err);
+      res.status(500).json({ message: "로그인 중 오류 발생" });
+    }
+  });
+
+  
   const httpServer = createServer(app);
   return httpServer;
 }
