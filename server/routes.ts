@@ -10,6 +10,8 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import cookie from "cookie"; // 상단에 import 필요
+
 
 
 const JWT_SECRET = process.env.JWT_SECRET || "development-secret"; // 보통은 .env에 저장
@@ -341,6 +343,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("로그인 실패:", err);
       res.status(500).json({ message: "로그인 중 오류 발생" });
     }
+
+      res.setHeader("Set-Cookie", cookie.serialize("token", token, {
+        httpOnly: true,
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7, // 7일
+      }));
+      
+      res.status(200).json({ message: "로그인 성공" });
   });
 
   app.post("/api/admin/users", async (req, res) => {
