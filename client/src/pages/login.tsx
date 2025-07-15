@@ -14,8 +14,6 @@ export default function LoginPage() {
     });
 
     if (res.ok) {
-      const { token } = await res.json();
-      localStorage.setItem("token", token);
       setLocation("/");
     } else {
       alert("로그인 실패");
