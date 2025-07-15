@@ -35,6 +35,8 @@ export const users = pgTable("users", {
   role: varchar("role").default("user"), // 'admin', 'supervisor', 'user'
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+  passwordHash: varchar("password_hash").notNull(),
+
 });
 
 // Badges table
