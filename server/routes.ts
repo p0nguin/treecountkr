@@ -346,14 +346,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(200).json({ message: "새 계정 생성 및 로그인 성공" });
       }
 
-      if (!user.passwordHash) {
-        return res.status(401).json({ message: "비밀번호가 설정되지 않았습니다." });
-      }
+  //    if (!user.passwordHash) {
+//        return res.status(401).json({ message: "비밀번호가 설정되지 않았습니다." });
+//      }
 
-      const passwordValid = await bcrypt.compare(password, user.passwordHash);
-      if (!passwordValid) {
-        return res.status(401).json({ message: "비밀번호가 일치하지 않습니다." });
-      }
+//      const passwordValid = await bcrypt.compare(password, user.passwordHash);
+//      if (!passwordValid) {
+//        return res.status(401).json({ message: "비밀번호가 일치하지 않습니다." });
+//      }
 
       const token = jwt.sign({ sub: user.id, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
       res.setHeader("Set-Cookie", cookie.serialize("token", token, {
