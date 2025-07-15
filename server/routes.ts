@@ -8,6 +8,12 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
+const JWT_SECRET = process.env.JWT_SECRET || "development-secret"; // 보통은 .env에 저장
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
