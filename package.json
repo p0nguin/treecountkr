@@ -82,9 +82,9 @@
     "wouter": "^3.3.5",
     "ws": "^8.18.0",
     "zod": "^3.24.2",
-    "zod-validation-error": "^3.4.0"  
+    "zod-validation-error": "^3.4.0",
     "bcrypt": "^5.1.0",
-    "jsonwebtoken": "^9.0.0",
+    "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
     "@replit/vite-plugin-cartographer": "^0.2.7",
