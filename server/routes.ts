@@ -11,6 +11,7 @@ import { dirname } from 'path';
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+
 const JWT_SECRET = process.env.JWT_SECRET || "development-secret"; // 보통은 .env에 저장
 
 
@@ -341,6 +342,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "로그인 중 오류 발생" });
     }
   });
+
+  app.post("/api/admin/users", async (req, res) => {
+  const { id, email, password, role } = req.body;
+
+  if (!id || !email || !password) {
+    return res.status(400).json({ error: "id, email, password는 필수입니다" });
+  }
+
+  try {
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const newUser = await storage.upsertUser({
+      id,
+      email,
+      passwordHash,
+      role: role || "user",
+    });
+
+    res.status(201).json({ message: "유저가 생성되었습니다", user: newUser });
+  } catch (error) {
+    console.error("유저 생성 실패:", error);
+    res.status(500).json({ error: "유저 생성 중 오류 발생" });
+  }
+});
 
   
   const httpServer = createServer(app);
