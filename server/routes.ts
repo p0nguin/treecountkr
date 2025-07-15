@@ -354,28 +354,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.post("/api/admin/users", async (req, res) => {
-  const { id, email, password, role } = req.body;
+    const { id, email, password, role } = req.body;
+  
+    if (!id || !email || !password) {
+      return res.status(400).json({ error: "id, email, password는 필수입니다" });
+    }
+  
+    try {
+      const passwordHash = await bcrypt.hash(password, 10);
+  
+      const newUser = await storage.upsertUser({
+        id,
+        email,
+        passwordHash,
+        role: role || "user",
+      });
+  
+      res.status(201).json({ message: "유저가 생성되었습니다", user: newUser });
+    } catch (error) {
+      console.error("유저 생성 실패:", error);
+      res.status(500).json({ error: "유저 생성 중 오류 발생" });
+    }
+  });
 
-  if (!id || !email || !password) {
-    return res.status(400).json({ error: "id, email, password는 필수입니다" });
-  }
-
-  try {
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const newUser = await storage.upsertUser({
-      id,
-      email,
-      passwordHash,
-      role: role || "user",
-    });
-
-    res.status(201).json({ message: "유저가 생성되었습니다", user: newUser });
-  } catch (error) {
-    console.error("유저 생성 실패:", error);
-    res.status(500).json({ error: "유저 생성 중 오류 발생" });
-  }
-});
+  app.get("/api/logout", (req, res) => {
+    res.setHeader("Set-Cookie", cookie.serialize("token", "", {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(0),
+    }));
+    res.redirect("/");
+  });
 
   
   const httpServer = createServer(app);
