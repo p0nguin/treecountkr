@@ -23,6 +23,8 @@ export async function getUserByEmail(email: string) {
 
 // Interface for storage operations
 export interface IStorage {
+  getUserByEmail(email: string): Promise<User | null>;
+
   // User operations (mandatory for Replit Auth)
   getUser(id: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
@@ -54,6 +56,11 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  async getUserByEmail(email: string): Promise<User | null> {
+    const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    return result[0] ?? null;
+  }
+  
   // User operations (mandatory for Replit Auth)
   async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
@@ -61,6 +68,8 @@ export class DatabaseStorage implements IStorage {
   }
 
   async upsertUser(userData: UpsertUser): Promise<User> {
+
+    
     const [user] = await db
       .insert(users)
       .values(userData)
