@@ -13,6 +13,9 @@ import TreeDataPage from "@/pages/tree-data";
 import StatisticsPage from "@/pages/statistics";
 import MyPage from "@/pages/my-page";
 import Navigation from "@/components/navigation";
+import LoginPage from "@/pages/login";
+import LogoutPage from "@/pages/logout";
+
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -37,6 +40,9 @@ function Router() {
           <Route path="/data" component={TreeDataPage} />
           <Route path="/stats" component={StatisticsPage} />
           <Route path="/me" component={MyPage} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/logout" component={LogoutPage} />
+
         </>
       )}
       <Route component={NotFound} />
