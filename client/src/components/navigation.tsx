@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Network, Map, Plus, List, BarChart3, Menu, Home, TreePine } from "lucide-react";
+import { Map, Plus, List, BarChart3, Menu, Home, TreePine } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -16,12 +16,14 @@ export default function Navigation() {
     return false;
   };
 
-  const navItems = isAuthenticated ? [
-    { path: "/", label: "홈", icon: Home },
-    { path: "/map", label: "지도", icon: Map },
-    { path: "/data", label: "나무 데이터", icon: List },
-    { path: "/stats", label: "통계", icon: BarChart3 },
-  ] : [];
+  const navItems = isAuthenticated
+    ? [
+        { path: "/", label: "홈", icon: Home },
+        { path: "/map", label: "지도", icon: Map },
+        { path: "/data", label: "나무 데이터", icon: List },
+        { path: "/stats", label: "통계", icon: BarChart3 },
+      ]
+    : [];
 
   return (
     <>
@@ -33,7 +35,7 @@ export default function Navigation() {
               <TreePine className="h-6 w-6 text-secondary" />
               <h1 className="text-xl md:text-2xl font-medium">나무세기</h1>
             </Link>
-            
+
             {isAuthenticated && (
               <nav className="hidden md:flex space-x-6">
                 {navItems.map((item) => (
@@ -51,37 +53,43 @@ export default function Navigation() {
                     </Button>
                   </Link>
                 ))}
-                <Button
-                  variant="ghost"
-                  className="text-white hover:bg-primary/80"
-                  onClick={() => window.location.href = '/api/logout'}
-                >
-                  로그아웃
-                </Button>
+                <Link href="/logout">
+                  <Button
+                    variant="ghost"
+                    className="text-white hover:bg-primary/80"
+                  >
+                    로그아웃
+                  </Button>
+                </Link>
               </nav>
             )}
 
             {!isAuthenticated && (
-              <Button
-                variant="secondary"
-                onClick={() => window.location.href = '/api/login'}
-              >
-                로그인
-              </Button>
+              <Link href="/login">
+                <Button variant="secondary">로그인</Button>
+              </Link>
             )}
 
             {/* Mobile menu button */}
             {isAuthenticated && (
               <Sheet open={open} onOpenChange={setOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="md:hidden text-white">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="md:hidden text-white"
+                  >
                     <Menu className="h-6 w-6" />
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-64">
                   <div className="flex flex-col space-y-4 mt-8">
                     {navItems.map((item) => (
-                      <Link key={item.path} href={item.path} onClick={() => setOpen(false)}>
+                      <Link
+                        key={item.path}
+                        href={item.path}
+                        onClick={() => setOpen(false)}
+                      >
                         <Button
                           variant={isActive(item.path) ? "default" : "ghost"}
                           className="w-full justify-start"
@@ -97,16 +105,14 @@ export default function Navigation() {
                         나무 추가
                       </Button>
                     </Link>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start text-red-600 hover:bg-red-50"
-                      onClick={() => {
-                        setOpen(false);
-                        window.location.href = '/api/logout';
-                      }}
-                    >
-                      로그아웃
-                    </Button>
+                    <Link href="/logout" onClick={() => setOpen(false)}>
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start text-red-600 hover:bg-red-50"
+                      >
+                        로그아웃
+                      </Button>
+                    </Link>
                   </div>
                 </SheetContent>
               </Sheet>
@@ -130,7 +136,7 @@ export default function Navigation() {
                 <span className="text-xs mt-1">홈</span>
               </Button>
             </Link>
-            
+
             <Link href="/map">
               <Button
                 variant="ghost"
@@ -142,7 +148,7 @@ export default function Navigation() {
                 <span className="text-xs mt-1">지도</span>
               </Button>
             </Link>
-            
+
             <Link href="/add">
               <Button
                 variant="ghost"
@@ -154,7 +160,7 @@ export default function Navigation() {
                 <span className="text-xs mt-1">나무 추가</span>
               </Button>
             </Link>
-            
+
             <Link href="/data">
               <Button
                 variant="ghost"
@@ -166,7 +172,7 @@ export default function Navigation() {
                 <span className="text-xs mt-1">데이터</span>
               </Button>
             </Link>
-            
+
             <Link href="/stats">
               <Button
                 variant="ghost"
