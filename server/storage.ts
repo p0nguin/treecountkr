@@ -34,6 +34,8 @@ export interface IStorage {
   // Tree operations
   getAllTrees(): Promise<Tree[]>;
   getTree(id: number): Promise<Tree | undefined>;
+
+  
   createTree(tree: InsertTree): Promise<Tree>;
   updateTreeStatus(id: number, status: string, reviewerId?: string, notes?: string): Promise<void>;
   getTreesByUser(userId: string): Promise<Tree[]>;
@@ -303,5 +305,3 @@ export class DatabaseStorage implements IStorage {
 }
 
 export const storage = new DatabaseStorage();
-
-
