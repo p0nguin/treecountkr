@@ -14,7 +14,7 @@ import cookie from "cookie"; // 상단에 import 필요
 
 
 
-const JWT_SECRET = process.env.JWT_SECRET || "development-secret"; // 보통은 .env에 저장
+const JWT_SECRET = process.env.JWT_SECRET || "development-secret";
 
 
 
@@ -332,25 +332,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "사용자를 찾을 수 없습니다." });
       }
 
+      if (!user.passwordHash) {
+        return res.status(401).json({ message: "비밀번호가 설정되지 않았습니다." });
+      }
+
       const passwordValid = await bcrypt.compare(password, user.passwordHash);
       if (!passwordValid) {
         return res.status(401).json({ message: "비밀번호가 일치하지 않습니다." });
       }
 
       const token = jwt.sign({ sub: user.id, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
-      res.json({ token });
-    } catch (err) {
-      console.error("로그인 실패:", err);
-      res.status(500).json({ message: "로그인 중 오류 발생" });
-    }
-
       res.setHeader("Set-Cookie", cookie.serialize("token", token, {
         httpOnly: true,
         path: "/",
         maxAge: 60 * 60 * 24 * 7, // 7일
+        sameSite: "lax", // CSRF 보호를 위해 추가
+        secure: process.env.NODE_ENV === "production", // HTTPS에서만 쿠키 전송
       }));
-      
       res.status(200).json({ message: "로그인 성공" });
+    } catch (err) {
+      console.error("로그인 실패:", err);
+      res.status(500).json({ message: "로그인 중 오류 발생" });
+    }
   });
 
   app.post("/api/admin/users", async (req, res) => {

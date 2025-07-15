@@ -15,10 +15,8 @@ import {
 import { db } from "./db";
 import { eq, sql, and, or, like, desc, count } from "drizzle-orm";
 
-import { users } from "./schema"; // users 테이블 import
-
 export async function getUserByEmail(email: string) {
-  const result = await db.select().from(users).where(users.email.eq(email)).limit(1);
+  const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
   return result[0] ?? null;
 }
 
