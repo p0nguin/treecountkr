@@ -329,7 +329,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const user = await storage.getUserByEmail(email);
       if (!user) {
-        return res.status(401).json({ message: "사용자를 찾을 수 없습니다." });
+        const newUser = await storage.upsertUser({
+          id: email, // 이메일을 ID로 사용 (간단한 테스트 목적)
+          email: email,
+          passwordHash: await bcrypt.hash(password, 10), // 입력된 비밀번호를 해싱하여 저장
+          role: "user", // 기본 역할은 'user'
+        });
+        const token = jwt.sign({ sub: newUser.id, role: newUser.role }, JWT_SECRET, { expiresIn: "7d" });
+        res.setHeader("Set-Cookie", cookie.serialize("token", token, {
+          httpOnly: true,
+          path: "/",
+          maxAge: 60 * 60 * 24 * 7,
+          sameSite: "lax",
+          secure: process.env.NODE_ENV === "production",
+        } ));
+        return res.status(200).json({ message: "새 계정 생성 및 로그인 성공" });
       }
 
       if (!user.passwordHash) {
