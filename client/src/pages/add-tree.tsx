@@ -302,6 +302,20 @@ export default function AddTreePage() {
                           <SelectTrigger>
                             <SelectValue placeholder="나무 종류를 선택하세요" />
                           </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="은행나무">은행나무</SelectItem>
+                            <SelectItem value="단풍나무">단풍나무</SelectItem>
+                            <SelectItem value="소나무">소나무</SelectItem>
+                            <SelectItem value="중국단풍">중국단풍</SelectItem>
+                            <SelectItem value="배롱나무">배롱나무</SelectItem>
+                            <SelectItem value="무궁화">무궁화</SelectItem>
+                            <SelectItem value="이팝나무">이팝나무</SelectItem>
+                            <SelectItem value="메타세콰이어">메타세콰이어</SelectItem>
+                            <SelectItem value="백합나무">백합나무</SelectItem>
+                            <SelectItem value="느티나무">느티나무</SelectItem>
+                            <SelectItem value="벚나무">벚나무</SelectItem>
+                            <SelectItem value="플라타너스">플라타너스</SelectItem>
+                          </SelectContent>
                         </FormControl>
                         <SelectContent>
                           {treeSpecies.map((species: any) => (
