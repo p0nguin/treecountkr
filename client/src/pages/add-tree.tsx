@@ -330,6 +330,65 @@ export default function AddTreePage() {
                   )}
                 />
 
+                {/* 1. 상태 평가 테이블 */}
+                <div className="space-y-4">
+                  <FormLabel className="text-base">세부 상태 평가</FormLabel>
+                  {["나뭇잎 무성도", "나뭇잎 상태", "가지 상태", "줄기 상태"].map((item, i) => (
+                    <FormField
+                      key={i}
+                      control={form.control}
+                      name={`detailedCondition.${i}`} // ex: detailedCondition.0, .1, ...
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-center gap-4">
+                            <span className="w-32">{item}</span>
+                            <div className="flex gap-4">
+                              {["상", "중", "하"].map((label, idx) => (
+                                <label key={idx} className="flex items-center space-x-1">
+                                  <input
+                                    type="radio"
+                                    value={label}
+                                    checked={field.value === label}
+                                    onChange={field.onChange}
+                                    className="accent-green-600"
+                                  />
+                                  <span>{label}</span>
+                                </label>
+                              ))}
+                            </div>
+                          </div>
+                        </FormItem>
+                      )}
+                    />
+                  ))}
+                </div>
+              
+                {/* 2. 체크리스트 */}
+                <div className="mt-6 space-y-2">
+                  <FormLabel className="text-base">체크리스트</FormLabel>
+                  {[
+                    "가로수에 인접한 전깃줄이 있는가",
+                    "뿌리가 보도를 밀어올리고 있는가",
+                    "보호덮개가 있는가",
+                  ].map((label, i) => (
+                    <FormField
+                      key={i}
+                      control={form.control}
+                      name={`checklist.${i}`} // ex: checklist.0, .1, ...
+                      render={({ field }) => (
+                        <FormItem className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            checked={field.value || false}
+                            onChange={field.onChange}
+                            className="accent-green-600"
+                          />
+                          <span>{label}</span>
+                        </FormItem>
+                      )}
+                    />
+                  ))}
+                </div>
                
               </CardContent>
             </Card>
