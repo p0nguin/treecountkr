@@ -330,40 +330,7 @@ export default function AddTreePage() {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="condition"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>나무 상태</FormLabel>
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          className="grid grid-cols-2 gap-4"
-                        >
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="excellent" id="excellent" />
-                            <Label htmlFor="excellent">매우 좋음</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="good" id="good" />
-                            <Label htmlFor="good">좋음</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="fair" id="fair" />
-                            <Label htmlFor="fair">보통</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="poor" id="poor" />
-                            <Label htmlFor="poor">나쁨</Label>
-                          </div>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+               
               </CardContent>
             </Card>
 
