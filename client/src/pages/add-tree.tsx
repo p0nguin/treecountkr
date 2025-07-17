@@ -289,35 +289,40 @@ export default function AddTreePage() {
                           type="button"
                           variant="ghost"
                           size="icon"
-                          onClick={() => handleInfoClick(
-                            "나무 종류 정보",
-                            "등록하려는 나무의 종류를 선택해주세요. 정확한 나무 종류를 알면 관리에 도움이 됩니다."
-                          )}
+                          onClick={() =>
+                            handleInfoClick(
+                              "나무 종류 정보",
+                              "등록하려는 나무의 종류를 선택해주세요. 정확한 나무 종류를 알면 관리에 도움이 됩니다."
+                            )
+                          }
                         >
                           <Info className="h-4 w-4" />
                         </Button>
                       </div>
+                
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="나무 종류를 선택하세요" />
                           </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="은행나무">은행나무</SelectItem>
-                            <SelectItem value="단풍나무">단풍나무</SelectItem>
-                            <SelectItem value="소나무">소나무</SelectItem>
-                            <SelectItem value="중국단풍">중국단풍</SelectItem>
-                            <SelectItem value="배롱나무">배롱나무</SelectItem>
-                            <SelectItem value="무궁화">무궁화</SelectItem>
-                            <SelectItem value="이팝나무">이팝나무</SelectItem>
-                            <SelectItem value="메타세콰이어">메타세콰이어</SelectItem>
-                            <SelectItem value="백합나무">백합나무</SelectItem>
-                            <SelectItem value="느티나무">느티나무</SelectItem>
-                            <SelectItem value="벚나무">벚나무</SelectItem>
-                            <SelectItem value="플라타너스">플라타너스</SelectItem>
-                          </SelectContent>
                         </FormControl>
+                
                         <SelectContent>
+                          {/* 기본 나무 종류 */}
+                          <SelectItem value="은행나무">은행나무</SelectItem>
+                          <SelectItem value="단풍나무">단풍나무</SelectItem>
+                          <SelectItem value="소나무">소나무</SelectItem>
+                          <SelectItem value="중국단풍">중국단풍</SelectItem>
+                          <SelectItem value="배롱나무">배롱나무</SelectItem>
+                          <SelectItem value="무궁화">무궁화</SelectItem>
+                          <SelectItem value="이팝나무">이팝나무</SelectItem>
+                          <SelectItem value="메타세콰이어">메타세콰이어</SelectItem>
+                          <SelectItem value="백합나무">백합나무</SelectItem>
+                          <SelectItem value="느티나무">느티나무</SelectItem>
+                          <SelectItem value="벚나무">벚나무</SelectItem>
+                          <SelectItem value="플라타너스">플라타너스</SelectItem>
+                
+                          {/* API에서 불러온 나무 종류 */}
                           {treeSpecies.map((species: any) => (
                             <SelectItem key={species.name} value={species.name}>
                               {species.icon} {species.name}
@@ -325,6 +330,7 @@ export default function AddTreePage() {
                           ))}
                         </SelectContent>
                       </Select>
+                
                       <FormMessage />
                     </FormItem>
                   )}
