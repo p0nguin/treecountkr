@@ -145,6 +145,7 @@ export const treesRelations = relations(trees, ({ one }) => ({
 }));
 
 // Schemas
+// Schemas
 export const insertTreeSchema = createInsertSchema(trees).omit({
   id: true,
   createdAt: true,
@@ -159,6 +160,16 @@ export const insertTreeSchema = createInsertSchema(trees).omit({
   heightFloors: z.number().positive().optional(),
   heightManual: z.number().positive().optional(),
   circumferenceHands: z.number().positive().optional(),
+
+  // ✅ 추가된 필드
+  leafDensity: z.enum(["상", "중", "하"]).optional(),
+  leafHealth: z.enum(["상", "중", "하"]).optional(),
+  branchHealth: z.enum(["상", "중", "하"]).optional(),
+  trunkHealth: z.enum(["상", "중", "하"]).optional(),
+
+  powerlineNearby: z.boolean().optional(),
+  rootLifting: z.boolean().optional(),
+  coverExists: z.boolean().optional(),
 });
 
 export const insertBadgeSchema = createInsertSchema(badges).omit({
