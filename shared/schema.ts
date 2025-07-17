@@ -68,30 +68,39 @@ export const treeSpecies = pgTable("tree_species", {
   careInstructions: text("care_instructions"),
   icon: varchar("icon"),
 });
-
-// Trees table with enhanced fields
 export const trees = pgTable("trees", {
   id: serial("id").primaryKey(),
   species: varchar("species").notNull(),
   condition: varchar("condition").notNull(), // 'excellent', 'fair', 'poor'
   latitude: real("latitude").notNull(),
   longitude: real("longitude").notNull(),
-  
+
   // Height options
   heightFloors: integer("height_floors"), // Building floors
   heightManual: real("height_manual"), // Manual entry in meters
-  
+
   // Circumference in hand spans
   circumferenceHands: integer("circumference_hands"),
-  
+
+  // New detailed health fields
+  leafDensity: varchar("leaf_density"), // '상', '중', '하'
+  leafHealth: varchar("leaf_health"),
+  branchHealth: varchar("branch_health"),
+  trunkHealth: varchar("trunk_health"),
+
+  // New checklist fields
+  powerlineNearby: boolean("powerline_nearby").default(false),
+  rootLifting: boolean("root_lifting").default(false),
+  coverExists: boolean("cover_exists").default(false),
+
   // Additional status checks
   excessivePruning: boolean("excessive_pruning").default(false),
   excessiveGroundCover: boolean("excessive_ground_cover").default(false),
   damaged: boolean("damaged").default(false),
-  
+
   // Photo
   photoUrl: varchar("photo_url"),
-  
+
   // Other fields
   notes: text("notes"),
   contributorId: varchar("contributor_id").references(() => users.id).notNull(),
@@ -101,7 +110,6 @@ export const trees = pgTable("trees", {
   reviewNotes: text("review_notes"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
-
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   trees: many(trees),
